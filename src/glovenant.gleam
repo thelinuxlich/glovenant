@@ -26,7 +26,11 @@ pub type Field {
 }
 
 pub type ResponseBody {
-  ResponseBody(status_code: Int, schema: SchemaType, metadata: Metadata)
+  Success(schema: SchemaType, metadata: Metadata) // status 200
+  Created(schema: SchemaType, metadata: Metadata) // status 201
+  NotFound(schema: SchemaType, metadata: Metadata) // status 404
+  BadRequest(schema: SchemaType, metadata: Metadata) // status 400
+  InternalError(schema: SchemaType, metadata: Metadata) // status 500
 }
 
 pub type Endpoint {
@@ -80,13 +84,11 @@ pub fn main() {
         metadata: Metadata("Get a pokemon by name"),
         params: [Path(Field("name", VStr, Metadata("The name of the pokemon")))],
         response: [
-          ResponseBody(
-            status_code: 200,
+          Success(
             schema: VCustom("Pokemon"),
             metadata: Metadata("The pokemon info"),
           ),
-          ResponseBody(
-            status_code: 404,
+          NotFound(
             schema: VCustom("Not Found"),
             metadata: Metadata("The pokemon was not found"),
           ),
@@ -108,13 +110,11 @@ pub fn main() {
           )),
         ],
         response: [
-          ResponseBody(
-            status_code: 201,
+          Success(
             schema: VCustom("OK"),
             metadata: Metadata("The created pokemon"),
           ),
-          ResponseBody(
-            status_code: 400,
+          BadRequest(
             schema: VCustom("Bad Request"),
             metadata: Metadata("The pokemon was not created"),
           ),
