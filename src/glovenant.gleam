@@ -15,14 +15,10 @@ pub type SchemaType {
 }
 
 pub type Parameter {
-  Query(Field)
-  Body(Field)
-  Path(Field)
-  Header(Field)
-}
-
-pub type Field {
-  Field(name: String, schema: SchemaType, metadata: Metadata)
+  Query(name: String, schema: SchemaType, metadata: Metadata)
+  Body(name: String, schema: SchemaType, metadata: Metadata)
+  Path(name: String, schema: SchemaType, metadata: Metadata)
+  Header(name: String, schema: SchemaType, metadata: Metadata)
 }
 
 pub type ResponseBody {
@@ -82,7 +78,7 @@ pub fn main() {
         alias: "pokemon_by_name",
         path: "/pokemon/:name",
         metadata: Metadata("Get a pokemon by name"),
-        params: [Path(Field("name", VStr, Metadata("The name of the pokemon")))],
+        params: [Path("name", VStr, Metadata("The name of the pokemon"))],
         response: [
           Success(
             schema: VCustom("Pokemon"),
@@ -99,15 +95,15 @@ pub fn main() {
         path: "/pokemon",
         metadata: Metadata("Create a pokemon"),
         params: [
-          Body(Field("name", VStr, Metadata("The name of the pokemon"))),
-          Body(Field("type", VStr, Metadata("The type of the pokemon"))),
-          Body(Field("height", VNumber, Metadata("The height of the pokemon"))),
-          Body(Field("weight", VNumber, Metadata("The weight of the pokemon"))),
-          Body(Field(
+          Body("name", VStr, Metadata("The name of the pokemon")),
+          Body("type", VStr, Metadata("The type of the pokemon")),
+          Body("height", VNumber, Metadata("The height of the pokemon")),
+          Body("weight", VNumber, Metadata("The weight of the pokemon")),
+          Body(
             "is_legendary",
             VBoolean,
             Metadata("Is the pokemon legendary?"),
-          )),
+          ),
         ],
         response: [
           Success(
