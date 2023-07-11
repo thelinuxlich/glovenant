@@ -1,4 +1,5 @@
 import gleam/io
+import gleam/list
 
 pub type Metadata {
   Metadata(description: String)
@@ -68,12 +69,11 @@ pub type Endpoint {
 }
 
 pub type Contract {
-  Contract(List(Endpoint))
+  Contract(endpoints: List(Endpoint))
 }
 
-pub fn main() {
-  let pokemon_api_spec =
-    Contract([
+pub fn example_spec() {
+  Contract([
       Get(
         alias: "pokemon_by_name",
         path: "/pokemon/:name",
@@ -117,6 +117,20 @@ pub fn main() {
         ],
       ),
     ])
+}
+
+pub fn main() {
+  let get_pokemon_by_name = example_spec() |> get_request_type("pokemon_by_name")
+  io.debug(get_pokemon_by_name)
+}
+
+pub fn get_request_type(c: Contract, alias: String) {
+  c.endpoints |> list.find(fn (endpoint) {
+    case endpoint {
+      Get(..) -> endpoint.alias == alias
+      _ -> False
+    }
+  })
 }
 
 pub fn forge(c: Contract) {
