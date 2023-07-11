@@ -30,35 +30,35 @@ pub type ResponseBody {
 }
 
 pub type Endpoint {
-  GET(
+  Get(
     alias: String,
     path: String,
     metadata: Metadata,
     params: List(Parameter),
     response: List(ResponseBody),
   )
-  POST(
+  Post(
     alias: String,
     path: String,
     metadata: Metadata,
     params: List(Parameter),
     response: List(ResponseBody),
   )
-  PUT(
+  Put(
     alias: String,
     path: String,
     metadata: Metadata,
     params: List(Parameter),
     response: List(ResponseBody),
   )
-  DELETE(
+  Delete(
     alias: String,
     path: String,
     metadata: Metadata,
     params: List(Parameter),
     response: List(ResponseBody),
   )
-  PATCH(
+  Patch(
     alias: String,
     path: String,
     metadata: Metadata,
@@ -74,7 +74,7 @@ pub type Contract {
 pub fn main() {
   let pokemon_api_spec =
     Contract([
-      GET(
+      Get(
         alias: "pokemon_by_name",
         path: "/pokemon/:name",
         metadata: Metadata("Get a pokemon by name"),
@@ -92,7 +92,7 @@ pub fn main() {
           ),
         ],
       ),
-      POST(
+      Post(
         alias: "create_pokemon",
         path: "/pokemon",
         metadata: Metadata("Create a pokemon"),
